@@ -1,34 +1,56 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
-function PizzaItem({itemData: {imageUrl, name, types, sizes, price, category, rating}}) {
-
-    const [activeSize, setActiveSize] = useState(0);
-    const [activeType, setActiveType] = useState(0);
-    const [pizzaCount, setPizzaCount] = useState(0);
+function PizzaItem({ imageUrl, name, types, sizes, price }) {
+  const pizzaTypes = ["thin", "classic"];
+  const [activeSize, setActiveSize] = useState(0);
+  const [activeType, setActiveType] = useState(0);
+  const [pizzaCount, setPizzaCount] = useState(0);
 
   return (
     <div className="pizza-block">
-      <img
-        className="pizza-block__image"
-        src={imageUrl}
-        alt="Pizza"
-      />
+      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       <h4 className="pizza-block__title">{name}</h4>
       <div className="pizza-block__selector">
         <ul>
           {types.map((type, ind) => {
-              return <li onClick={() => {setActiveType(ind)}} className={activeType === ind ? 'active' : ''} key={type+ind}>{type === 0 ? 'thin' : 'classic'}</li>
+            return (
+              <li
+                onClick={() => {
+                  setActiveType(ind);
+                }}
+                className={activeType === ind ? "active" : ""}
+                key={type + ind}
+              >
+                {pizzaTypes[type]}
+              </li>
+            );
           })}
         </ul>
         <ul>
           {sizes.map((size, ind) => {
-              return <li onClick={() => {setActiveSize(ind)}} className={activeSize === ind ? 'active' : ''} key={size+ind}>{size}</li>
+            return (
+              <li
+                onClick={() => {
+                  setActiveSize(ind);
+                }}
+                className={activeSize === ind ? "active" : ""}
+                key={size + ind}
+              >
+                {size}cm
+              </li>
+            );
           })}
         </ul>
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">From {price}$</div>
-        <div className="button button--outline button--add" onClick={() => {setPizzaCount(pizzaCount + 1)}}>
+        <div
+          className="button button--outline button--add"
+          onClick={() => {
+            setPizzaCount(pizzaCount + 1);
+          }}
+        >
           <svg
             width="12"
             height="12"
@@ -48,5 +70,22 @@ function PizzaItem({itemData: {imageUrl, name, types, sizes, price, category, ra
     </div>
   );
 }
+
+PizzaItem.propTypes = {
+  name: PropTypes.string,
+  imageUrl: PropTypes.string,
+  types: PropTypes.arrayOf(PropTypes.number),
+  sizes: PropTypes.arrayOf(PropTypes.number),
+  price: PropTypes.number,
+};
+
+PizzaItem.defaultProps = {
+    name: '...',
+    types: [],
+    sizes: [],
+    price: 0,
+    imageUrl: ''
+}
+
 
 export default PizzaItem;

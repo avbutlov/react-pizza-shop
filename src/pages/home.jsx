@@ -15,7 +15,7 @@ function Home({items}) {
           <div className="content__items">
             {
               items.map((el, ind) => {
-                return <PizzaItem key={el+ind} itemData={el}/>
+                return <PizzaItem key={el+ind} {...el}/>
               })
             }
             
