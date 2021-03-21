@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 function PizzaItem({ imageUrl, name, types, sizes, price }) {
-  const pizzaTypes = ["thin", "classic"];
+  const pizzaTypes = ["thin", "normal"];
   const [activeSize, setActiveSize] = useState(0);
   const [activeType, setActiveType] = useState(0);
   const [pizzaCount, setPizzaCount] = useState(0);
@@ -22,7 +22,7 @@ function PizzaItem({ imageUrl, name, types, sizes, price }) {
                 className={activeType === ind ? "active" : ""}
                 key={type + ind}
               >
-                {pizzaTypes[type]}
+                {pizzaTypes[type]} crust
               </li>
             );
           })}

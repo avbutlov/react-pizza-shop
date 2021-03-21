@@ -5,6 +5,7 @@ function SortPopup({ items }) {
   const [activeItem, setActiveItem] = useState(0);
   const sortElem = useRef();
 
+
   const toggleVisiblePopup = () => {
     setIsOpened(!isOpened);
   };
@@ -37,7 +38,7 @@ function SortPopup({ items }) {
             />
           </svg>
           <b>Sort by:</b>
-          <span onClick={toggleVisiblePopup}>{items[activeItem]}</span>
+          <span onClick={toggleVisiblePopup}>{items[activeItem].name}</span>
         </div>
         {isOpened && (
           <div className="sort__popup">
@@ -45,14 +46,14 @@ function SortPopup({ items }) {
               {items.map((el, ind) => {
                 return (
                   <li
-                    key={el + ind}
+                    key={el.type + ind}
                     onClick={() => {
                       setActiveItem(ind);
                       setIsOpened(false);
                     }}
                     className={activeItem === ind ? "active" : ""}
                   >
-                    {el}
+                    {el.name}
                   </li>
                 );
               })}
