@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 
-function SortPopup({ items }) {
+const SortPopup = React.memo(({ items, onClickItem }) => {
   const [isOpened, setIsOpened] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
   const sortElem = useRef();
-
 
   const toggleVisiblePopup = () => {
     setIsOpened(!isOpened);
@@ -25,7 +24,7 @@ function SortPopup({ items }) {
       <div className="sort" ref={sortElem}>
         <div className="sort__label">
           <svg
-          className={isOpened ? 'rotated' : ''}
+            className={isOpened ? "rotated" : ""}
             width="10"
             height="6"
             viewBox="0 0 10 6"
@@ -50,6 +49,7 @@ function SortPopup({ items }) {
                     onClick={() => {
                       setActiveItem(ind);
                       setIsOpened(false);
+                      onClickItem(el.type);
                     }}
                     className={activeItem === ind ? "active" : ""}
                   >
@@ -63,6 +63,6 @@ function SortPopup({ items }) {
       </div>
     </div>
   );
-}
+});
 
 export default SortPopup;

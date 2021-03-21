@@ -1,41 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import "./scss/app.scss";
 import { Header } from "./components";
-import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 import { Home, Cart } from "./pages";
-import axios from "axios";
 import { setPizzes } from "./redux/actions/pizzes";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
-function App({ items, setPizzes }) {
+function App() {
+  const dispatch = useDispatch();
+
+  const { sortBy, category } = useSelector(({ filters }) => {
+    return {
+      sortBy: filters.sortBy,
+      category: filters.category,
+    };
+  });
+
   React.useEffect(() => {
-    axios.get("http://localhost:3000/db.json").then(({ data }) => {
-      setPizzes(data.pizzes);
-    });
-  }, []);
+    axios
+      .get(`http://localhost:3000/pizzes?_sort=${sortBy}&_order=desc`)
+      .then(({ data }) => {
+        dispatch(setPizzes(data));
+      });
+  }, [sortBy]);
 
   return (
     <div className="wrapper">
       <Header />
       <div className="content">
-        <Route exact path="/" render={() => <Home items={items} />} />
+        <Route exact path="/" component={Home} />
         <Route exact path="/cart" component={Cart} />
       </div>
     </div>
   );
 }
 
-
-const mapStateToProps = (state) => {
-  return {
-    items: state.pizzes.items,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setPizzes: (items) => dispatch(setPizzes(items))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
